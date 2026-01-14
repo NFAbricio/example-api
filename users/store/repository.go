@@ -1,6 +1,7 @@
 package store
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/jinzhu/gorm"
@@ -44,6 +45,35 @@ func (r Repository) Delete(id int) error {
 	return r.db.Delete(&users.User{}, "id = ?", id).Error // id = ? is to avoid SQL injection
 }
 
-func (r Repository) GetByID(id int) (*User, error) {}
+func (r Repository) GetByID(id int) (*users.User, error) {
+	var user users.User
+	err := r.db.Where("id = ?", id).First(&user).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("user not found: %w", err)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("error to get user by id: %w", err)
+	}
 
-func (r Repository) Auth(email, password string) (*User, error) {}
+	return &user, nil
+}
+
+func (r Repository) Auth(email, password string) (*users.User, error) {
+	var user users.User
+	err := r.db.Where("email = ?", email).First(&user).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("user not found: %w", err)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("error to get user by email: %w", err)
+	}
+
+	match := user.Password == password
+	if !match {
+		return nil, fmt.Errorf("email or password wrong")
+	}
+
+	user.Password = ""
+
+	return &user, nil
+}
