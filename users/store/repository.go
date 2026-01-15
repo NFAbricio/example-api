@@ -73,7 +73,7 @@ func (r Repository) Auth(email, password string) (*users.User, error) {
 		return nil, fmt.Errorf("email or password wrong")
 	}
 
-	user.Password = ""
+	user.Password = "" //?
 
 	return &user, nil
 }
