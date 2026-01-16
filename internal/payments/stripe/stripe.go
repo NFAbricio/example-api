@@ -5,6 +5,7 @@ import (
 	"github.com/stripe/stripe-go/v79/customer"
 
 	"github.com/NFAbricio/example-api/internal/payments"
+
 )
 
 type PaymentService struct {
