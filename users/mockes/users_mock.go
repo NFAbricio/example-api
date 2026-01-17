@@ -115,6 +115,21 @@ func (mr *MockReaderMockRecorder) Auth(email, password interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Auth", reflect.TypeOf((*MockReader)(nil).Auth), email, password)
 }
 
+// GetByEmail mocks base method.
+func (m *MockReader) GetByEmail(email string) (*users.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByEmail", email)
+	ret0, _ := ret[0].(*users.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByEmail indicates an expected call of GetByEmail.
+func (mr *MockReaderMockRecorder) GetByEmail(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByEmail", reflect.TypeOf((*MockReader)(nil).GetByEmail), email)
+}
+
 // GetByID mocks base method.
 func (m *MockReader) GetByID(id int) (*users.User, error) {
 	m.ctrl.T.Helper()
@@ -196,6 +211,21 @@ func (mr *MockRepositoryMockRecorder) Delete(id interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockRepository)(nil).Delete), id)
 }
 
+// GetByEmail mocks base method.
+func (m *MockRepository) GetByEmail(email string) (*users.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetByEmail", email)
+	ret0, _ := ret[0].(*users.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetByEmail indicates an expected call of GetByEmail.
+func (mr *MockRepositoryMockRecorder) GetByEmail(email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByEmail", reflect.TypeOf((*MockRepository)(nil).GetByEmail), email)
+}
+
 // GetByID mocks base method.
 func (m *MockRepository) GetByID(id int) (*users.User, error) {
 	m.ctrl.T.Helper()
@@ -249,10 +279,10 @@ func (m *MockUsecase) EXPECT() *MockUsecaseMockRecorder {
 }
 
 // Auth mocks base method.
-func (m *MockUsecase) Auth(email, password string) (*users.User, error) {
+func (m *MockUsecase) Auth(email, password string) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Auth", email, password)
-	ret0, _ := ret[0].(*users.User)
+	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -77,3 +77,16 @@ func (r Repository) Auth(email, password string) (*users.User, error) {
 
 	return &user, nil
 }
+
+func (r Repository) GetByEmail(email string) (*users.User, error) {
+	var user users.User
+	err := r.db.Where("email = ?", email).First(&user).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, fmt.Errorf("user not found: %w", err)
+	}
+	if err != nil {
+		return nil, fmt.Errorf("error to get user by id: %w", err)
+	}
+
+	return &user, nil
+}

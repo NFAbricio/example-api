@@ -5,8 +5,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/spf13/viper"
 	"golang.org/x/crypto/bcrypt"
-
 )
 
 func ValidatePassword(password string) (bool, string) {
@@ -51,4 +51,8 @@ func ValidateHash(hash, password string) error {
 	}
 
 	return nil
+}
+
+func GetJWTSecret() string {
+	return viper.GetString("JWT_SECRET")
 }

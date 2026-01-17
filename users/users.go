@@ -1,11 +1,20 @@
 package users
 
+import "github.com/dgrijalva/jwt-go"
+
 type User struct {
 	ID         int    `json:"id"`
 	Name       string `json:"name"`
 	Email      string `json:"email"`
 	Password   string `json:"password"`
 	CustomerID string `json:"customer_id"`
+}
+
+// that is for jwt
+type ClaimsUser struct {
+	User User   `json:"user"`
+	Role string `json:"role"`
+	jwt.StandardClaims
 }
 
 // thats is for DB, writer is for modify data and create
@@ -18,6 +27,7 @@ type Writer interface {
 // only for read and return some data in db
 type Reader interface {
 	GetByID(id int) (*User, error)
+	GetByEmail(email string) (*User, error)
 	Auth(email, password string) (*User, error)
 }
 
@@ -35,5 +45,5 @@ type Usecase interface {
 	GetByID(id int) (*User, error)
 	Update(id int, attributes map[string]interface{}) error //interface is the informations that we are passing to validate and update after the validation
 	Delete(id int) error
-	Auth(email, password string) (*User, error)
+	Auth(email, password string) (token string, err error)
 }

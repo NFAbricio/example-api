@@ -3,10 +3,14 @@ package users
 import (
 	"errors"
 	"fmt"
+	"time"
 
+	"github.com/dgrijalva/jwt-go"
+	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/jinzhu/gorm"
 
 	"github.com/NFAbricio/example-api/internal/payments"
+	validators "github.com/NFAbricio/example-api/package"
 )
 
 // why not diretely a store?
@@ -83,14 +87,27 @@ func (s *Service) Delete(id int) error {
 	return nil
 }
 
-func (s *Service) Auth(email, password string) (*User, error) {
-	user, err := s.repository.Auth(email, password)
+func (s *Service) Auth(email, password string) (token string, err error) {
+	dbUser, err := s.repository.GetByEmail(email)
 	if errors.Is(err, gorm.ErrRecordNotFound){
-		return nil, fmt.Errorf("user not found: %w", err)
+		return "", fmt.Errorf("user not found: %w", err)
 	}
 	if err != nil {
-		return nil, fmt.Errorf("fail to get user: %w", err)
+		return "", fmt.Errorf("fail to get user: %w", err)
 	}
-	
-	return nil, nil
+
+	err = validators.ValidateHash(password, dbUser.Password)
+	if err != nil {
+		return "", fmt.Errorf("invalid password: %w", err)
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"user": dbUser,
+		"role": "user",
+		"exp": time.Now().Add(240 * time.Hour).Unix(),
+	})
+
+
+	return token.SignedString([]byte(validators.GetJWTSecret()))
+
 }
