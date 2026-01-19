@@ -45,5 +45,5 @@ type Usecase interface {
 	GetByID(id int) (*User, error)
 	Update(id int, attributes map[string]interface{}) error //interface is the informations that we are passing to validate and update after the validation
 	Delete(id int) error
-	Auth(email, password string) (token string, err error)
+	Auth(email, password string) (string, error)
 }

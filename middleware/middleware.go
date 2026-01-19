@@ -60,10 +60,10 @@ func (um *UserMiddleware) Middleware() gin.HandlerFunc{
 			return
 		}
 
-		httpContext.Set((viper.GetString("USER_ROLE_SECRET")), claims.User)
+		httpContext.Set((viper.GetString("USER_ROLE_SECRET")), claims.User) // create a secret for jwt
 		httpContext.Set("isAuthenticated", true)
 
-		httpContext.Next()
+		httpContext.Next() // pass the middleware to API
 	}
 }
 

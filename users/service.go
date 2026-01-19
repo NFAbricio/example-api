@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/jinzhu/gorm"
 
 	"github.com/NFAbricio/example-api/internal/payments"
@@ -87,7 +86,7 @@ func (s *Service) Delete(id int) error {
 	return nil
 }
 
-func (s *Service) Auth(email, password string) (token string, err error) {
+func (s *Service) Auth(email, password string) (string, error) {
 	dbUser, err := s.repository.GetByEmail(email)
 	if errors.Is(err, gorm.ErrRecordNotFound){
 		return "", fmt.Errorf("user not found: %w", err)
@@ -101,7 +100,7 @@ func (s *Service) Auth(email, password string) (token string, err error) {
 		return "", fmt.Errorf("invalid password: %w", err)
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+	token := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{
 		"user": dbUser,
 		"role": "user",
 		"exp": time.Now().Add(240 * time.Hour).Unix(),

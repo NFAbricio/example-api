@@ -7,9 +7,8 @@ package mockes
 import (
 	reflect "reflect"
 
-	gomock "github.com/golang/mock/gomock"
-
 	users "github.com/NFAbricio/example-api/users"
+	gomock "github.com/golang/mock/gomock"
 )
 
 // MockWriter is a mock of Writer interface.
