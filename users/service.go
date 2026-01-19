@@ -19,7 +19,7 @@ type Service struct {
 	payments   payments.Payment
 }
 
-func NewService(repository Repository) Usecase {
+func NewService(repository Repository, payments payments.Payment) Usecase {
 	return &Service{repository: repository}
 }
 

@@ -51,8 +51,8 @@ func (uc *UserController) Get(ctx *gin.Context) {
 
 }
 
-func (uc *UserController) Update(ctx *gin.Context) {}
+// func (uc *UserController) Update(ctx *gin.Context) {}
 
-func (uc *UserController) Delete(ctx *gin.Context) {}
+// func (uc *UserController) Delete(ctx *gin.Context) {}
 
-func (uc *UserController) Auth(ctx *gin.Context) {}
+// func (uc *UserController) Auth(ctx *gin.Context) {}
