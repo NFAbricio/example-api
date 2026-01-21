@@ -1,2 +1,28 @@
+# Arquivos de configuração de ambiente. NUNCA comite segredos.
 .env
-internal/
+*.env
+
+# Binários e executáveis compilados
+# O nome do binário pode variar dependendo do seu sistema operacional (.exe para Windows)
+api
+api.exe
+*.exe
+*.test
+
+# Arquivos de log
+*.log
+
+# Diretório de dependências (caso use 'go mod vendor')
+vendor/
+
+# Arquivos de cobertura de testes
+/coverage.out
+/coverage.html
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração de IDEs
+.idea/
+.vscode/

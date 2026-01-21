@@ -5,7 +5,8 @@ go 1.25.3
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.11.0
-	github.com/go-jose/go-jose/v4 v4.1.3
+	github.com/golang-migrate/migrate v3.5.4+incompatible
+	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/golang/mock v1.6.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/spf13/viper v1.21.0
@@ -30,6 +31,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
+	github.com/lib/pq v1.10.9 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect

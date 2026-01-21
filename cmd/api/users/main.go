@@ -3,8 +3,12 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 
@@ -22,13 +26,15 @@ func main() {
 	}
 
 	dburl := fmt.Sprintf(
-		"host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		envs.DatabaseUser,
+		envs.DatabasePassword,
 		envs.DatabaseHost,
 		envs.DatabasePort,
-		envs.DatabaseUser,
 		envs.DatabaseName,
-		envs.DatabasePassword,
 	)
+
+	migrations(dburl)
 	
 	db, err := gorm.Open("postgres", dburl)
 	if err != nil {
@@ -53,5 +59,23 @@ func main() {
 
 	router.POST("/user", controller.Create)
 
-	router.Run()
+	router.Run(":45457")
+}
+
+func migrations(url string) {
+
+	m, err := migrate.New("file://migrations", url)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ERROR: %v\n", err)
+		os.Exit(1)
+	}
+
+	if err := m.Up(); err != nil {
+		if fmt.Sprintf("%s", err) != "no change" {
+			fmt.Fprintf(os.Stderr, "ERROR: %v\n", err)
+			os.Exit(1)
+		}
+	}
+
+
 }
